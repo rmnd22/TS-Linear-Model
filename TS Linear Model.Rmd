@@ -272,7 +272,7 @@ We can reject the null hypothesis of unit root.
 The time series is non stationary on all variables, the tests suggest differencing some of the vaiables in the series, which means substracting the previous value from the current value.<br> <br>¿Why differencing the time series?<br>Usually differencing the variables in the series helps removing trends, stabilizing the mean and removing seasonality.<br> Differencing is one of the transformations we can apply to the series, other options include: Log Transformation, De-Trending and De-Seasonalizing.
 
 Differentiate the suggested variables by the previous ADF tests:
-```{r include=FALSE}
+```{r echo=TRUE}
 dai <- diff(ai)
 dy <- diff(y)
 died <- diff(ied)
@@ -297,5 +297,48 @@ Tests whether the series is stationary without intercept:
 summary(ur.df(dai, type=c("none"), lags = 8, selectlags=c("BIC")))
 ```
 Stationary, we can reject the null hypothesis because the test result: -1.98 is smaller than the than the 5pct critical value. Therefore, this is a stationary variable without intercept on the model.
+
+We can reject the null hypothesis of unit root.
+
+$$\text{ADF test on variable: } dy$$
+Tests whether the series is stationary with trend and intercept:
+```{r}
+summary(ur.df(dy, type=c("trend"), lags = 8, selectlags=c("BIC")))
+```
+Stationary, we can reject the null hypothesis because the test result: -9.84 is smaller than the than the 5pct critical value. Therefore, this is a stationary variable with trending on the model.
+
+Tests whether the series is stationary with intercept only:
+```{r}
+summary(ur.df(dy, type=c("drift"), lags = 8, selectlags=c("BIC")))
+```
+Stationary, we can reject the null hypothesis because the test result: -9.85 is smaller than the than the 5pct critical value. Therefore, this is a stationary variable with intercept only on the model.
+
+Tests whether the series is stationary without intercept:
+```{r}
+summary(ur.df(dy, type=c("none"), lags = 8, selectlags=c("BIC")))
+```
+Stationary, we can reject the null hypothesis because the test result: -9.22 is smaller than the than the 5pct critical value. Therefore, this is a stationary variable without intercept on the model.
+
+We can reject the null hypothesis of unit root.
+
+$$\text{ADF test on variable: } died$$
+
+Tests whether the series is stationary with trend and intercept:
+```{r}
+summary(ur.df(dy, type=c("trend"), lags = 8, selectlags=c("BIC")))
+```
+Stationary, we can reject the null hypothesis because the test result: -8.18 is smaller than the than the 5pct critical value. Therefore, this is a stationary variable with trending on the model.
+
+Tests whether the series is stationary with intercept only:
+```{r}
+summary(ur.df(dy, type=c("drift"), lags = 8, selectlags=c("BIC")))
+```
+Stationary, we can reject the null hypothesis because the test result: -8.2 is smaller than the than the 5pct critical value. Therefore, this is a stationary variable with intercept only on the model.
+
+Tests whether the series is stationary without intercept:
+```{r}
+summary(ur.df(dy, type=c("none"), lags = 8, selectlags=c("BIC")))
+```
+Stationary, we can reject the null hypothesis because the test result: -8.12 is smaller than the than the 5pct critical value. Therefore, this is a stationary variable without intercept on the model.
 
 We can reject the null hypothesis of unit root.
