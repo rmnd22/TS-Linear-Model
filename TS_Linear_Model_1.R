@@ -18,7 +18,7 @@ library("vars")
 library("carData")
 library("car")
 
-wd <- "C:/Users/ArmandoTorres/OneDrive - KEO World/Escritorio/Base_Datos_Dipl_ModXII_2024_LS.xlsx"
+wd <- "~/DS/Base_Datos_Dipl_ModXII_2024_LS.xlsx"
 ACT_IND_MEX <- read_excel(wd, sheet = "act_ind_mex")
 
 attach(ACT_IND_MEX)
@@ -111,13 +111,13 @@ summary(ur.df(ai, type=c("none"), lags = 8, selectlags=c("BIC")))
 
 # y
   summary(ur.df(y, type=c("trend"), lags = 8, selectlags=c("BIC")))
-  # Dado que -3.45 si es menor que el valor critico al 5%, rechazamos hipotesis
+  # Dado que -3.54 si es menor que el valor critico al 5%, rechazamos hipotesis
   # de raiz unitaria. y estacionaria con tendencia en el modelo
   summary(ur.df(y, type=c("drift"), lags = 8, selectlags=c("BIC")))
   # No estacionario ya que -1.16 no es menor que el valor crítico, no se rechaza
   # hipotesis nula sin tendencia, con solo una constante
   summary(ur.df(y, type=c("none"), lags = 8, selectlags=c("BIC")))
-  # No es estacionaria ya que 3.42 no es menor que el valor critico, no se rechaza
+  # No es estacionaria ya que 1.95 no es menor que el valor critico, no se rechaza
   # hipotesis nula cuando sin tendencia ni constante
   
   # Cuando se incluye una tendencia, la serie y parece ser estacionaria.
@@ -145,9 +145,9 @@ summary(ur.df(inf, type=c("none"), lags = 8, selectlags=c("BIC")))
 # ied
 
 summary(ur.df(ied, type=c("trend"), lags = 8, selectlags=c("BIC")))
-# No estacionario ya que -1.79 no es menor que el valor crítico
+# No estacionario ya que -3.22 no es menor que el valor crítico
 summary(ur.df(ied, type=c("drift"), lags = 8, selectlags=c("BIC")))
-# No estacionario ya que -2.46 no es menor que el valor crítico
+# No estacionario ya que -1.79 no es menor que el valor crítico
 summary(ur.df(ied, type=c("none"), lags = 8, selectlags=c("BIC")))
 # No estacionario ya que 0.45 no es menor que el valor crítico
 
