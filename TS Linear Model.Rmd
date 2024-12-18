@@ -48,6 +48,12 @@ library("car")
 
 ACT_IND_MEX <- read_excel("~/DS/Base_Datos_Dipl_ModXII_2024_LS.xlsx", sheet = "act_ind_mex")
 ```
+The data is collected from BANXICO (Bank of Mexico) Official Site, this data shows a collection of variables about mexican macro-economics. Indicators such as GDP, Direct Foreign Investment, inflation, etc.<br>
+Recently, I finished a Time Series diploma where one of my professors gave us this public data so we can analyze it and practice the skills learned during the diploma. 
+```{r}
+head(ACT_IND_MEX)
+summary(ACT_IND_MEX)
+```
 
 Fist of all, we need to transform all of our variables that we´re going to use into time series variables for accurtae outputs
 ```{r}
@@ -129,18 +135,18 @@ As the kurtosis is closer to 0, less skewness the variable has, in other words, 
 #### Including Plots
 
 ```{r pressure, echo=FALSE}
-par(mfrow=c(1,3))
+par(mfrow=c(1,5))
 
-ts.plot(ai, main="Industrial Activity: 1993-2024")
-#ts.plot(y, main="PIB en Mexico: 1993-2024")
-ts.plot(inf, main="Inflation Rate: 1993-2024")
-#ts.plot(ied, main="Inversión extranjera a Mexico: 1993-2024")
-ts.plot(r, main="Interest Rate: 1993-2024")
+ts.plot(ai, main="Industrial Activity")
+ts.plot(y, main="GDP")
+ts.plot(inf, main="Inflation Rate")
+ts.plot(ied, main="Foreign Investment")
+ts.plot(r, main="Interest Rate")
 
 hist(ai, main="Industrial Activity")
-#hist(y, main="Histograma del PIB en México")
+hist(y, main="GDP")
 hist(inf, main="Inflation Rate")
-#hist(ied, main="Histograma de la Inversión extranjera a Mexico")
+hist(ied, main="Foreign Investment")
 hist(r, main="Interest Rate")
 ```
 
@@ -342,3 +348,19 @@ summary(ur.df(dy, type=c("none"), lags = 8, selectlags=c("BIC")))
 Stationary, we can reject the null hypothesis because the test result: -8.12 is smaller than the than the 5pct critical value. Therefore, this is a stationary variable without intercept on the model.
 
 We can reject the null hypothesis of unit root.
+<br>
+Now we´re looking for a linear model that explains the behavior of the industrial activity that is correlated and affected by the inflation and the CETES interest rate, so we can find a long term relation between them (cointegrated vector) and explain its inpact over the industrial activity.
+
+```{r}
+modelo_niveles <- lm(ai ~ inf + r)
+summary(modelo_niveles)
+```
+To consider this as a valid model we need to focus in a couple of stats in this summary. First, the p-value needs to be less than 0.05 which in this case is true and this means that we can trust the model fit with the data. <br>Second, we now have o validate each variables p-value individually so we can conclude that each one of them are significant, which in this case is also true.
+
+```{r}
+mce <- residuals(modelo_niveles)
+mce  =  ts(mce, frequency = 4, start = c(1993,1))
+adf_test_mce <- ur.df(mce, type = "none", lags = 8, selectlags = "BIC")
+summary(adf_test_mce)
+```
+
