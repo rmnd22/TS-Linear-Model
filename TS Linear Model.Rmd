@@ -351,6 +351,8 @@ We can reject the null hypothesis of unit root.
 <br>
 Now we´re looking for a linear model that explains the behavior of the industrial activity that is correlated and affected by the inflation and the CETES interest rate, so we can find a long term relation between them (cointegrated vector) and explain its inpact over the industrial activity.
 
+#### Model fit
+
 ```{r}
 modelo_niveles <- lm(ai ~ inf + r)
 summary(modelo_niveles)
@@ -364,4 +366,25 @@ adf_test_mce <- ur.df(mce, type = "none", lags = 8, selectlags = "BIC")
 summary(adf_test_mce)
 ```
 
-Prueba de conexión para commits verificados desde R Studio.
+Since the test-statistic is greater than the 5pct critical value, we can reject the null hypothesis of unit root at the 5% significance level.<br> This suggests that the model is well-specified and does not suffer from non-stationarity issues in the residuals.
+
+Evaluating the model residuals is crucial to guarantee a great model fit, this means that the forecast is precise. If the residuals are not stationary, it means the model needs to be fitted or recalculated.
+
+Due to the cointegartion relationship between the original variables wich are non-stationary and the model residuals which are stationary, we can adjust an MCE model.
+
+This type of model is very useful because it combines short-term and long-term model fitting over the variables. In other words, the model is preciser when it comes to complex temporal dynamics, such as inertia or gradual adjusts over the economics relations.
+
+```{r}
+dinf <- diff(inf)
+dr <- diff(r)
+```
+
+
+```{r}
+(EG <- summary(dynlm(dai ~ Lag(dai, 1) + Lag(dai, 2) + Lag(dai, 3) + Lag(dai, 4) +
+                       dinf + Lag(dinf, 1) + Lag(dinf, 2) + Lag(dinf, 3) + Lag(dinf, 4) +
+                       dr + Lag(dr, 1) + Lag(dr, 2) + Lag(dr, 3) +
+                       Lag(mce, 1)))) 
+```
+
+
