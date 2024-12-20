@@ -364,3 +364,4 @@ adf_test_mce <- ur.df(mce, type = "none", lags = 8, selectlags = "BIC")
 summary(adf_test_mce)
 ```
 
+Prueba de conexión para commits verificados desde R Studio.
